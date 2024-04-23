@@ -9,11 +9,12 @@ class Player:
         player_width = 180
         player_height = 120
         self.rect = pygame.Rect(0, 0, player_width, player_height)
+        player_left_image = pygame.image.load("../images/player/player_left_foot.png").convert_alpha()
+        player_right_image = pygame.image.load("../images/player/player_right_foot.png").convert_alpha()
         self.original_images = [
-            pygame.transform.smoothscale(pygame.image.load("../images/player/player_left_foot.png").convert_alpha(),
-                                         (player_width, player_height)),
-            pygame.transform.smoothscale(pygame.image.load("../images/player/player_right_foot.png").convert_alpha(),
-                                         (player_width, player_height))]
+            pygame.transform.smoothscale(player_left_image, (player_width, player_height)),
+            pygame.transform.smoothscale(player_right_image, (player_width, player_height))
+        ]
         self.images = self.original_images
         self.current_image = 0
         self.rotation_angle = 0

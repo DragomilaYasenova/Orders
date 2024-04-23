@@ -9,8 +9,8 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Orders")
 player = Player()
 
-crosshair = pygame.image.load("../images/crosshair/crosshair.png")
-crosshair = pygame.transform.scale(crosshair, (50, 50))
+crosshair = pygame.image.load("../images/crosshair/crosshair.png").convert_alpha()
+crosshair = pygame.transform.smoothscale(crosshair, (50, 50))
 
 pygame.mouse.set_visible(False)
 
