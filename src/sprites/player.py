@@ -18,7 +18,7 @@ class Player:
         self.current_image = 0
         self.rotation_angle = 0
         self.animation_timer = 0
-        self.animation_speed = 10
+        self.animation_speed = 0
         self.speed = 5
         self.projectiles = []
         self.shoot_delay = 10
@@ -38,6 +38,7 @@ class Player:
         screen.blit(rotated_image, rotated_rect)
 
     def movements(self, key):
+        self.animation_speed = 15
         if key[pygame.K_a]:
             self.rect.x -= self.speed
             self.animate()
