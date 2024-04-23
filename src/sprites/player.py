@@ -8,9 +8,9 @@ class Player:
         player_height = 120
         self.rect = pygame.Rect(0, 0, player_width, player_height)
         self.original_images = [
-            pygame.transform.smoothscale(pygame.image.load("images/player/player_left_foot.png").convert_alpha(),
+            pygame.transform.smoothscale(pygame.image.load("../images/player/player_left_foot.png").convert_alpha(),
                                          (player_width, player_height)),
-            pygame.transform.smoothscale(pygame.image.load("images/player/player_right_foot.png").convert_alpha(),
+            pygame.transform.smoothscale(pygame.image.load("../images/player/player_right_foot.png").convert_alpha(),
                                          (player_width, player_height))]
         self.images = self.original_images
         self.current_image = 0
