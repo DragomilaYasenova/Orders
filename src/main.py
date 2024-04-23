@@ -21,10 +21,19 @@ while run:
     player.movements(key)
 
     mouse_pos = pygame.mouse.get_pos()
-    pygame.draw.circle(screen, (0, 0, 0), mouse_pos, 5)
     player.rotate_towards_mouse(mouse_pos)
 
+    mouse_pressed = pygame.mouse.get_pressed()[0]
+    player.shoot(mouse_pressed)
+
+    for projectile in player.projectiles:
+        projectile.update()
+
     player.draw(screen)
+
+    for projectile in player.projectiles:
+        projectile.draw(screen)
+
     pygame.display.flip()
     pygame.time.Clock().tick(60)
 

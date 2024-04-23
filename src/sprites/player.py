@@ -1,6 +1,8 @@
 import pygame
 import math
 
+from src.sprites.projectile import Projectile
+
 
 class Player:
     def __init__(self):
@@ -18,6 +20,9 @@ class Player:
         self.animation_timer = 0
         self.animation_speed = 10
         self.speed = 5
+        self.projectiles = []
+        self.shoot_delay = 10
+        self.shoot_timer = 0
 
     def animate(self):
         self.animation_timer += 1
@@ -26,7 +31,11 @@ class Player:
             self.current_image = (self.current_image + 1) % len(self.original_images)
 
     def draw(self, screen):
-        screen.blit(self.images[self.current_image], self.rect)
+        for projectile in self.projectiles:
+            projectile.draw(screen)
+        rotated_image = pygame.transform.rotate(self.images[self.current_image], -self.rotation_angle)
+        rotated_rect = rotated_image.get_rect(center=self.rect.center)
+        screen.blit(rotated_image, rotated_rect)
 
     def movements(self, key):
         if key[pygame.K_a]:
@@ -43,7 +52,14 @@ class Player:
             self.animate()
 
     def rotate_towards_mouse(self, mouse_pos):
-        dx = mouse_pos[0] - (self.rect.x + self.rect.width / 2)
-        dy = mouse_pos[1] - (self.rect.y + self.rect.height / 2)
-        angle = math.degrees(math.atan2(dy, dx))
-        self.images = [pygame.transform.rotate(image, -angle) for image in self.original_images]
+        dx = mouse_pos[0] - self.rect.centerx
+        dy = mouse_pos[1] - self.rect.centery
+        self.rotation_angle = math.degrees(math.atan2(dy, dx))
+
+    def shoot(self, mouse_pressed):
+        if mouse_pressed and self.shoot_timer <= 0:
+            projectile = Projectile(self.rect.centerx, self.rect.centery, self.rotation_angle)
+            self.projectiles.append(projectile)
+            self.shoot_timer = self.shoot_delay
+        elif self.shoot_timer > 0:
+            self.shoot_timer -= 1
