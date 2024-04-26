@@ -2,10 +2,8 @@ import pygame
 from sprites.player import Player
 
 pygame.init()
-screen_width = 1800
-screen_height = 900
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
-screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Orders")
 player = Player()
 
@@ -20,6 +18,8 @@ while run:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            run = False
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             run = False
 
     key = pygame.key.get_pressed()

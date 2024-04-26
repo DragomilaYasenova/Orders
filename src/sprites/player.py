@@ -2,6 +2,7 @@ import pygame
 import math
 
 from src.sprites.projectile import Projectile
+from src.support_files.cyrillic_keys import cyrillic_a, cyrillic_d, cyrillic_w, cyrillic_s
 
 
 class Player:
@@ -40,16 +41,16 @@ class Player:
 
     def movements(self, key):
         self.animation_speed = 15
-        if key[pygame.K_a]:
+        if key[pygame.K_a] or key[cyrillic_a]:
             self.rect.x -= self.speed
             self.animate()
-        elif key[pygame.K_d]:
+        elif key[pygame.K_d] or key[cyrillic_d]:
             self.rect.x += self.speed
             self.animate()
-        elif key[pygame.K_w]:
+        elif key[pygame.K_w] or key[cyrillic_w]:
             self.rect.y -= self.speed
             self.animate()
-        elif key[pygame.K_s]:
+        elif key[pygame.K_s] or key[cyrillic_s]:
             self.rect.y += self.speed
             self.animate()
 
