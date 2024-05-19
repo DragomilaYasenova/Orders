@@ -16,5 +16,6 @@ class Projectile:
         self.x += self.speed * math.cos(self.angle)
         self.y -= self.speed * math.sin(self.angle)
 
-    def draw(self, screen):
-        pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)), self.radius)
+    def draw(self, screen, camera):
+        pygame.draw.circle(screen, self.color,
+                           camera.apply(pygame.Vector2(self.x, self.y)), self.radius)
