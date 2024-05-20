@@ -4,8 +4,8 @@ import pygame
 
 class Projectile:
     def __init__(self, x, y, angle):
-        self.radius = 3
-        self.color = (0, 0, 0)
+        self.radius = 1.5
+        self.color = (255, 0, 0)
         self.speed = 10
         self.angle = math.radians(-angle)
 

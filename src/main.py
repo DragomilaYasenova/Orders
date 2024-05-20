@@ -1,7 +1,7 @@
 import pygame
 import pytmx
 from sprites.player import Player
-from core.map import draw_map
+from core.map import draw_map, parse_collision_objects
 from support_files.camera import Camera
 
 pygame.init()
@@ -9,10 +9,11 @@ screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.display.set_caption("Orders")
 clock = pygame.time.Clock()
 
-player = Player()
-tmx_data = pytmx.util_pygame.load_pygame('./core/Map.tmx')
 zoom_factor = 2
+tmx_data = pytmx.util_pygame.load_pygame('./core/Map.tmx')
+collision_rects = parse_collision_objects(tmx_data, zoom_factor)
 
+player = Player()
 camera = Camera(tmx_data.width * tmx_data.tilewidth, tmx_data.height * tmx_data.tileheight, screen, zoom_factor)
 
 crosshair = pygame.image.load("../images/crosshair/crosshair.png").convert_alpha()
@@ -27,7 +28,7 @@ while run:
             run = False
 
     key = pygame.key.get_pressed()
-    player.movements(key)
+    player.movements(key, collision_rects)
 
     mouse_pos = pygame.mouse.get_pos()
 
@@ -36,6 +37,10 @@ while run:
     camera.update(player)
 
     draw_map(screen, tmx_data, camera, zoom_factor)
+
+    for projectile in player.projectiles:
+        projectile.update()
+        projectile.draw(screen, camera)
 
     player.draw(screen, camera)
 
@@ -48,10 +53,6 @@ while run:
 
     mouse_pressed = pygame.mouse.get_pressed()[0]
     player.shoot(mouse_pressed)
-
-    for projectile in player.projectiles:
-        projectile.update()
-        projectile.draw(screen, camera)
 
     pygame.display.flip()
     clock.tick(60)

@@ -1,13 +1,12 @@
 import pygame
-import math
 from src.sprites.projectile import Projectile
 from src.support_files.cyrillic_keys import cyrillic_a, cyrillic_d, cyrillic_w, cyrillic_s
 
 
 class Player:
     def __init__(self):
-        player_width = 100
-        player_height = 80
+        player_width = 45
+        player_height = 30
         self.rect = pygame.Rect(240, 2070, player_width, player_height)
         player_left_image = pygame.image.load("../images/player/player_left_foot.png").convert_alpha()
         player_right_image = pygame.image.load("../images/player/player_right_foot.png").convert_alpha()
@@ -36,8 +35,10 @@ class Player:
         rotated_rect = rotated_image.get_rect(center=self.rect.center)
         screen.blit(rotated_image, camera.apply(rotated_rect))
 
-    def movements(self, key):
+    def movements(self, key, collision_rects):
         self.animation_speed = 15
+        old_rect = self.rect.copy()
+
         if key[pygame.K_LSHIFT] or key[pygame.K_RSHIFT]:
             self.speed = 10
         else:
@@ -55,6 +56,11 @@ class Player:
         elif key[pygame.K_s] or key[cyrillic_s]:
             self.rect.y += self.speed
             self.animate()
+
+        for rect in collision_rects:
+            if self.rect.colliderect(rect):
+                self.rect = old_rect
+                break
 
     def rotate_towards_mouse(self, mouse_pos, camera):
         dx = mouse_pos[0] - (self.rect.centerx + camera.camera.x)
