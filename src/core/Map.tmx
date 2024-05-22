@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="74" height="67" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="1823">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="74" height="67" tilewidth="32" tileheight="32" infinite="0" nextlayerid="13" nextobjectid="1859">
  <tileset firstgid="1" source="Tileset.tsx"/>
  <layer id="4" name="Ground" width="74" height="67" locked="1">
   <data encoding="csv">
@@ -214,7 +214,7 @@
 0,0,2684354593,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,33,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="6" name="Obstacles" visible="0" locked="1">
+ <objectgroup id="6" name="Walls" visible="0" locked="1">
   <object id="2" name="wall" x="32" y="928" width="160" height="32"/>
   <object id="3" name="wall" x="192" y="960" width="32" height="64"/>
   <object id="4" name="wall" x="224" y="608" width="32" height="32"/>
@@ -426,7 +426,7 @@
    <polygon points="0,0 0,-32 32,-32"/>
   </object>
  </objectgroup>
- <objectgroup id="9" name="Objects">
+ <objectgroup id="9" name="Objects" visible="0" locked="1">
   <object id="1487" name="object" x="32" y="1024" width="64" height="64"/>
   <object id="1488" name="object" x="32" y="960" width="160" height="24"/>
   <object id="1489" name="object" x="32" y="1135" width="160" height="17"/>
@@ -761,5 +761,37 @@
   <object id="1820" name="object" x="130" y="1996" width="15" height="14"/>
   <object id="1821" name="object" x="164" y="2036" width="22" height="8"/>
   <object id="1822" name="object" x="228" y="2036" width="22" height="8"/>
+ </objectgroup>
+ <objectgroup id="12" name="Lights">
+  <object id="1825" name="lights" x="106" y="1048" width="9" height="7"/>
+  <object id="1826" name="lights" x="618" y="891" width="9" height="7"/>
+  <object id="1827" name="lights" x="200" y="1884" width="9" height="7"/>
+  <object id="1828" name="lights" x="199" y="2012" width="9" height="7"/>
+  <object id="1829" name="lights" x="429" y="1884" width="9" height="7"/>
+  <object id="1830" name="lights" x="429" y="2011" width="9" height="7"/>
+  <object id="1831" name="lights" x="620" y="1883" width="9" height="7"/>
+  <object id="1832" name="lights" x="619" y="2014" width="9" height="7"/>
+  <object id="1833" name="lights" x="652" y="1495" width="9" height="7"/>
+  <object id="1834" name="lights" x="1195" y="1266" width="9" height="7"/>
+  <object id="1835" name="lights" x="1835" y="1213" width="9" height="7"/>
+  <object id="1836" name="lights" x="1705" y="1309" width="9" height="7"/>
+  <object id="1837" name="lights" x="1837" y="1409" width="9" height="7"/>
+  <object id="1838" name="lights" x="1703" y="1410" width="9" height="7"/>
+  <object id="1839" name="lights" x="2237" y="1179" width="9" height="7"/>
+  <object id="1840" name="lights" x="2236" y="1095" width="9" height="7"/>
+  <object id="1842" name="lights" x="2234" y="1028" width="9" height="7"/>
+  <object id="1843" name="lights" x="2233" y="958" width="9" height="7"/>
+  <object id="1844" name="lights" x="1691" y="844" width="9" height="7"/>
+  <object id="1845" name="lights" x="1691" y="900" width="9" height="7"/>
+  <object id="1846" name="lights" x="1857" y="842" width="9" height="7"/>
+  <object id="1847" name="lights" x="1849" y="904" width="9" height="7"/>
+  <object id="1848" name="lights" x="1734" y="700" width="9" height="7"/>
+  <object id="1849" name="lights" x="1804" y="705" width="9" height="7"/>
+  <object id="1850" name="lights" x="923" y="405" width="9" height="7"/>
+  <object id="1851" name="lights" x="684" y="406" width="9" height="7"/>
+  <object id="1853" name="lights" x="795" y="700" width="10" height="8"/>
+  <object id="1854" name="lights" x="1019" y="700" width="10" height="8"/>
+  <object id="1856" name="lights" x="1330" y="652" width="10" height="8"/>
+  <object id="1858" name="lights" x="1157" y="716" width="10" height="8"/>
  </objectgroup>
 </map>
