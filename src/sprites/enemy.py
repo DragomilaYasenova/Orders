@@ -50,26 +50,16 @@ class Enemy:
 
         if distance < 300:
             dx, dy = self._calculate_deltas(player_rect)
-            new_rotation_angle = math.degrees(math.atan2(dy, dx))
-            if self.rotation_angle != new_rotation_angle:
-                self.rotation_angle = new_rotation_angle
-                self.animate()
         else:
-            self.rotation_angle = 0
+            dx, dy = self._calculate_deltas(pygame.Rect(self.original_position[0], self.original_position[1], 1, 1))
 
-    def rotate_towards_original_position(self):
-        dx, dy = self._calculate_deltas(pygame.Rect(self.original_position[0], self.original_position[1], 1, 1))
         new_rotation_angle = math.degrees(math.atan2(dy, dx))
         if self.rotation_angle != new_rotation_angle:
             self.rotation_angle = new_rotation_angle
             self.animate()
 
     def update(self, player_rect, collision_rects):
-        if self.distance_to(player_rect) > 300:
-            self.rotate_towards_original_position()
-        else:
-            self.rotate_towards_player(player_rect)
-
+        self.rotate_towards_player(player_rect)
         self.movement(player_rect, collision_rects)
 
     def movement(self, player_rect, collision_rects):
