@@ -40,7 +40,7 @@ class Player:
         old_rect = self.rect.copy()
 
         if key[pygame.K_LSHIFT] or key[pygame.K_RSHIFT]:
-            self.speed = 10
+            self.speed = 8
         else:
             self.speed = 6
 

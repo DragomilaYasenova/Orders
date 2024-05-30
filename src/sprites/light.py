@@ -24,3 +24,13 @@ class Light:
                                                        int(self.fog.get_height())))
 
         surface.blit(scaled_fog, light_pos, special_flags=pygame.BLEND_RGBA_SUB)
+
+
+def parse_light_objects(tmx_data):
+    lights = []
+    for obj in tmx_data.get_layer_by_name("Lights"):
+        x = obj.x
+        y = obj.y
+        radius = 200
+        lights.append(Light((x, y), radius))
+    return lights

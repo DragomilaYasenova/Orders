@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="74" height="67" tilewidth="32" tileheight="32" infinite="0" nextlayerid="13" nextobjectid="1859">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="74" height="67" tilewidth="32" tileheight="32" infinite="0" nextlayerid="15" nextobjectid="1961">
  <tileset firstgid="1" source="Tileset.tsx"/>
  <layer id="4" name="Ground" width="74" height="67" locked="1">
   <data encoding="csv">
@@ -762,9 +762,9 @@
   <object id="1821" name="object" x="164" y="2036" width="22" height="8"/>
   <object id="1822" name="object" x="228" y="2036" width="22" height="8"/>
  </objectgroup>
- <objectgroup id="12" name="Lights">
+ <objectgroup id="12" name="Lights" visible="0" locked="1">
   <object id="1825" name="lights" x="106" y="1048" width="9" height="7"/>
-  <object id="1826" name="lights" x="618" y="891" width="9" height="7"/>
+  <object id="1826" name="lights" x="619" y="892" width="9" height="7"/>
   <object id="1827" name="lights" x="200" y="1884" width="9" height="7"/>
   <object id="1828" name="lights" x="199" y="2012" width="9" height="7"/>
   <object id="1829" name="lights" x="429" y="1884" width="9" height="7"/>
@@ -793,5 +793,56 @@
   <object id="1854" name="lights" x="1019" y="700" width="10" height="8"/>
   <object id="1856" name="lights" x="1330" y="652" width="10" height="8"/>
   <object id="1858" name="lights" x="1157" y="716" width="10" height="8"/>
+ </objectgroup>
+ <objectgroup id="13" name="Enemy">
+  <object id="1861" name="enemy" x="748" y="1476" width="10" height="10"/>
+  <object id="1862" name="enemy" x="112" y="1876" width="10" height="10"/>
+  <object id="1863" name="enemy" x="665" y="2007" width="10" height="10"/>
+  <object id="1864" name="enemy" x="346" y="2007" width="10" height="10"/>
+  <object id="1865" name="enemy" x="539" y="1230" width="10" height="10"/>
+  <object id="1866" name="enemy" x="1160" y="840" width="10" height="10"/>
+  <object id="1867" name="enemy" x="1267" y="906" width="10" height="10"/>
+  <object id="1868" name="enemy" x="1898" y="649" width="10" height="10"/>
+  <object id="1869" name="enemy" x="1638" y="651" width="10" height="10"/>
+  <object id="1870" name="enemy" x="1637" y="971" width="10" height="10"/>
+  <object id="1871" name="enemy" x="1957" y="1540" width="10" height="10"/>
+  <object id="1872" name="enemy" x="1414" y="1674" width="10" height="10"/>
+  <object id="1873" name="enemy" x="1416" y="1482" width="10" height="10"/>
+  <object id="1874" name="enemy" x="2313" y="870" width="10" height="10"/>
+  <object id="1875" name="enemy" x="2151" y="1126" width="10" height="10"/>
+  <object id="1876" name="enemy" x="2151" y="995" width="10" height="10"/>
+  <object id="1877" name="enemy" x="2183" y="619" width="10" height="10"/>
+  <object id="1878" name="enemy" x="2281" y="775" width="10" height="10"/>
+  <object id="1879" name="enemy" x="2216" y="329" width="10" height="10"/>
+  <object id="1880" name="enemy" x="1770" y="201" width="10" height="10"/>
+  <object id="1881" name="enemy" x="1287" y="328" width="10" height="10"/>
+  <object id="1882" name="enemy" x="1415" y="106" width="10" height="10"/>
+  <object id="1883" name="enemy" x="1671" y="457" width="10" height="10"/>
+  <object id="1884" name="enemy" x="1063" y="361" width="10" height="10"/>
+  <object id="1885" name="enemy" x="968" y="458" width="10" height="10"/>
+  <object id="1886" name="enemy" x="740" y="649" width="10" height="10"/>
+  <object id="1887" name="enemy" x="1288" y="776" width="10" height="10"/>
+  <object id="1888" name="enemy" x="1192" y="651" width="10" height="10"/>
+  <object id="1889" name="enemy" x="1066" y="648" width="10" height="10"/>
+  <object id="1890" name="enemy" x="839" y="904" width="10" height="10"/>
+  <object id="1891" name="enemy" x="487" y="646" width="10" height="10"/>
+  <object id="1892" name="enemy" x="618" y="517" width="10" height="10"/>
+  <object id="1894" name="enemy" x="233" y="553" width="10" height="10"/>
+  <object id="1895" name="enemy" x="488" y="551" width="10" height="10"/>
+  <object id="1896" name="enemy" x="328" y="907" width="10" height="10"/>
+  <object id="1897" name="enemy" x="359" y="649" width="10" height="10"/>
+  <object id="1898" name="enemy" x="358" y="1447" width="10" height="10"/>
+  <object id="1899" name="enemy" x="390" y="1222" width="10" height="10"/>
+  <object id="1900" name="enemy" x="294" y="1608" width="10" height="10"/>
+  <object id="1901" name="enemy" x="553" y="1766" width="10" height="10"/>
+  <object id="1902" name="enemy" x="389" y="1800" width="10" height="10"/>
+  <object id="1903" name="enemy" x="2093" y="620" width="10" height="10"/>
+  <object id="1904" name="enemy" x="2056" y="1257" width="10" height="10"/>
+  <object id="1905" name="enemy" x="1961" y="1479" width="10" height="10"/>
+  <object id="1906" name="enemy" x="1994" y="866" width="10" height="10"/>
+  <object id="1907" name="enemy" x="1959" y="519" width="10" height="10"/>
+  <object id="1909" name="enemy" x="940" y="550" width="10" height="10"/>
+  <object id="1910" name="enemy" x="1159" y="1116" width="10" height="10"/>
+  <object id="1911" name="enemy" x="680" y="1578" width="10" height="10"/>
  </objectgroup>
 </map>
