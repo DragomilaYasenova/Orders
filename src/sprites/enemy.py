@@ -101,8 +101,30 @@ class Enemy:
 
         for rect in collision_rects:
             if self.rect.colliderect(rect):
-                self.rect = old_rect
-                break
+                if distance_to_player <= 300:
+                    player_x = player_rect.centerx
+                    player_y = player_rect.centery
+                    enemy_x = self.rect.centerx
+                    enemy_y = self.rect.centery
+
+                    if abs(player_x - enemy_x) > abs(player_y - enemy_y):
+                        self.rect.x, self.rect.y = old_rect.x, old_rect.y + math.copysign(self.speed,
+                                                                                          player_y - enemy_y)
+                    else:
+                        self.rect.x, self.rect.y = old_rect.x + math.copysign(self.speed,
+                                                                              player_x - enemy_x), old_rect.y
+                    break
+                else:
+                    spawn_x = self.original_position[0]
+                    spawn_y = self.original_position[1]
+                    enemy_x = self.rect.centerx
+                    enemy_y = self.rect.centery
+
+                    if abs(spawn_x - enemy_x) > abs(spawn_y - enemy_y):
+                        self.rect.x, self.rect.y = old_rect.x, old_rect.y + math.copysign(self.speed, spawn_y - enemy_y)
+                    else:
+                        self.rect.x, self.rect.y = old_rect.x + math.copysign(self.speed, spawn_x - enemy_x), old_rect.y
+                    break
 
 
 def parse_enemy_objects(tmx_data, zoom_factor):

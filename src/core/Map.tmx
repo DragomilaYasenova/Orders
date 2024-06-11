@@ -794,7 +794,7 @@
   <object id="1856" name="lights" x="1330" y="652" width="10" height="8"/>
   <object id="1858" name="lights" x="1157" y="716" width="10" height="8"/>
  </objectgroup>
- <objectgroup id="13" name="Enemy">
+ <objectgroup id="13" name="Enemy" visible="0" locked="1">
   <object id="1861" name="enemy" x="748" y="1476" width="10" height="10"/>
   <object id="1862" name="enemy" x="112" y="1876" width="10" height="10"/>
   <object id="1863" name="enemy" x="665" y="2007" width="10" height="10"/>
