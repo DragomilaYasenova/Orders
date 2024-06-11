@@ -48,6 +48,10 @@ while run:
     for projectile in player.projectiles:
         projectile.update()
         projectile.draw(screen, camera)
+        for enemy in enemies:
+            if enemy.rect.collidepoint(projectile.x, projectile.y):
+                enemy.take_damage(10)
+                player.projectiles.remove(projectile)
 
     player.draw(screen, camera)
 
@@ -69,8 +73,12 @@ while run:
         light.draw(dark_overlay, camera, zoom_factor)
 
     for enemy in enemies:
-        enemy.update(player.rect, collision_rects)
-        enemy.draw(screen, camera)
+        enemy.update(player, collision_rects)
+        if enemy.health <= 0:
+            enemies.remove(enemy)
+        else:
+            enemy.draw(screen, camera)
+            enemy.draw_projectiles(screen, camera)
 
     screen.blit(dark_overlay, (0, 0))
 

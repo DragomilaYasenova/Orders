@@ -18,4 +18,4 @@ class Projectile:
 
     def draw(self, screen, camera):
         pygame.draw.circle(screen, self.color,
-                           camera.apply(pygame.Vector2(self.x, self.y)), self.radius)
+                           camera.apply((int(self.x), int(self.y))), self.radius)

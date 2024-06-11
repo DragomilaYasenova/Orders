@@ -23,6 +23,7 @@ class Player:
         self.projectiles = []
         self.shoot_delay = 10
         self.shoot_timer = 0
+        self.health = 100
 
     def animate(self):
         self.animation_timer += 1
@@ -75,3 +76,13 @@ class Player:
             self.shoot_timer = self.shoot_delay
         elif self.shoot_timer > 0:
             self.shoot_timer -= 1
+
+    def take_damage(self, amount):
+        self.health -= amount
+        if self.health <= 0:
+            self.die()
+
+    def die(self):
+        print("Player has died")
+        pygame.quit()
+        exit()
