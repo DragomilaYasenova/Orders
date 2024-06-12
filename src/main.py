@@ -16,6 +16,11 @@ zoom_factor = 2
 tmx_data = pytmx.util_pygame.load_pygame('./core/Map.tmx')
 collision_rects = parse_collision_objects(tmx_data, zoom_factor)
 
+crosshair = pygame.image.load("../images/crosshair/crosshair.png").convert_alpha()
+crosshair = pygame.transform.smoothscale(crosshair, (40, 40))
+opacity = 250
+crosshair.set_alpha(opacity)
+
 player = Player()
 camera = Camera(tmx_data.width * tmx_data.tilewidth, tmx_data.height * tmx_data.tileheight, screen, zoom_factor)
 
