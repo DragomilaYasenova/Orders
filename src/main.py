@@ -45,13 +45,17 @@ while run:
 
     draw_map(screen, tmx_data, camera, zoom_factor)
 
-    for projectile in player.projectiles:
+    for projectile in player.projectiles[:]:
         projectile.update()
-        projectile.draw(screen, camera)
-        for enemy in enemies:
-            if enemy.rect.collidepoint(projectile.x, projectile.y):
-                enemy.take_damage(10)
-                player.projectiles.remove(projectile)
+        if projectile.check_collision_with_walls(collision_rects):
+            player.projectiles.remove(projectile)
+        else:
+            projectile.draw(screen, camera)
+            for enemy in enemies[:]:
+                if enemy.rect.collidepoint(projectile.x, projectile.y):
+                    enemy.take_damage(10)
+                    player.projectiles.remove(projectile)
+                    break
 
     player.draw(screen, camera)
 
@@ -72,12 +76,17 @@ while run:
     for light in lights:
         light.draw(dark_overlay, camera, zoom_factor)
 
-    for enemy in enemies:
+    for enemy in enemies[:]:
         enemy.update(player, collision_rects)
         if enemy.health <= 0:
             enemies.remove(enemy)
         else:
             enemy.draw(screen, camera)
+            for projectile in enemy.projectiles[:]:
+                if projectile.check_collision_with_walls(collision_rects):
+                    enemy.projectiles.remove(projectile)
+                else:
+                    projectile.draw(screen, camera)
             enemy.draw_projectiles(screen, camera)
 
     screen.blit(dark_overlay, (0, 0))
