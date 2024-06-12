@@ -2,6 +2,7 @@ import pygame
 import math
 from src.sprites.projectile import Projectile
 
+
 class Enemy:
     def __init__(self, position):
         enemy_width = 45
@@ -26,6 +27,7 @@ class Enemy:
         self.projectiles = []
         self.health = 50
         self.shoot_range = 300
+        self.start_shooting = False
 
     def animate(self):
         self.animation_timer += 1
@@ -49,7 +51,7 @@ class Enemy:
 
     def rotate_towards_player(self, player_rect):
         distance = self.distance_to(player_rect)
-        if distance < self.shoot_range:
+        if distance < self.shoot_range or self.start_shooting:
             dx, dy = self._calculate_deltas(player_rect)
         else:
             dx, dy = self._calculate_deltas(pygame.Rect(self.original_position[0], self.original_position[1], 1, 1))
@@ -68,9 +70,26 @@ class Enemy:
     def movement(self, player_rect, collision_rects):
         old_rect = self.rect.copy()
         distance_to_player = self.distance_to(player_rect)
-        distance_to_original_position = self.distance_to(pygame.Rect(self.original_position[0], self.original_position[1], 1, 1))
+        distance_to_original_position = self.distance_to(
+            pygame.Rect(self.original_position[0], self.original_position[1], 1, 1))
 
-        if 200 <= distance_to_player <= self.shoot_range:
+        if self.start_shooting:
+            if distance_to_player > 200:
+                dx, dy = self._calculate_deltas(player_rect)
+                direction_length = math.sqrt(dx ** 2 + dy ** 2)
+                if direction_length != 0:
+                    dx /= direction_length
+                    dy /= direction_length
+
+                self.rect.x += dx * self.speed
+                self.rect.y += dy * self.speed
+
+                new_distance = self.distance_to(player_rect)
+                if new_distance < 200:
+                    scale_factor = (distance_to_player - 200) / direction_length
+                    self.rect.x -= dx * scale_factor
+                    self.rect.y -= dy * scale_factor
+        elif 200 <= distance_to_player <= self.shoot_range:
             dx, dy = self._calculate_deltas(player_rect)
             direction_length = math.sqrt(dx ** 2 + dy ** 2)
             if direction_length != 0:
@@ -108,9 +127,11 @@ class Enemy:
                     enemy_y = self.rect.centery
 
                     if abs(player_x - enemy_x) > abs(player_y - enemy_y):
-                        self.rect.x, self.rect.y = old_rect.x, old_rect.y + math.copysign(self.speed, player_y - enemy_y)
+                        self.rect.x, self.rect.y = old_rect.x, old_rect.y + math.copysign(self.speed,
+                                                                                          player_y - enemy_y)
                     else:
-                        self.rect.x, self.rect.y = old_rect.x + math.copysign(self.speed, player_x - enemy_x), old_rect.y
+                        self.rect.x, self.rect.y = old_rect.x + math.copysign(self.speed,
+                                                                              player_x - enemy_x), old_rect.y
                     break
                 else:
                     spawn_x = self.original_position[0]
@@ -144,6 +165,8 @@ class Enemy:
 
     def take_damage(self, amount):
         self.health -= amount
+        self.start_shooting = True
+
         if self.health <= 0:
             self.die()
 
