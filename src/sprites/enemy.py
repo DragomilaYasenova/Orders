@@ -30,6 +30,7 @@ class Enemy:
         self.max_health = 50
         self.shoot_range = 300
         self.start_shooting = False
+        self.start_shooting_distance = 450
 
         self.fov_angle = 60
         self.fov_range = 300
@@ -99,6 +100,12 @@ class Enemy:
 
     def update(self, player, collision_rects):
         self.rotate_towards_player(player.rect)
+
+        if self.distance_to(player.rect) > self.start_shooting_distance:
+            self.start_shooting = False
+        elif player.shoot_timer > 0 and self.distance_to(player.rect) <= self.start_shooting_distance:
+            self.start_shooting = True
+
         self.movement(player.rect, collision_rects)
         self.shoot(player.rect)
         self.update_projectiles(player, player.rect)
