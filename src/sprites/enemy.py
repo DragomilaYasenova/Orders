@@ -1,3 +1,5 @@
+import random
+
 import pygame
 import math
 from src.sprites.projectile import Projectile
@@ -28,12 +30,13 @@ class Enemy:
         self.projectiles = []
         self.health = 50
         self.max_health = 50
-        self.shoot_range = 300
+        self.shoot_range = 250
         self.start_shooting = False
         self.start_shooting_distance = 450
+        self.spawn_distance = 250
 
         self.fov_angle = 60
-        self.fov_range = 300
+        self.fov_range = 250
         self.is_moving = False
 
     def animate(self):
@@ -98,8 +101,23 @@ class Enemy:
             self.rotation_angle = new_rotation_angle
             self.animate()
 
-    def update(self, player, collision_rects):
+    def spawn_enemies_if_low_health(self, enemies_list):
+        if self.health < 5 and random.random() < 0.1:  # Шанс от 50%
+            # Избираме случаен брой и случайни позиции за новите врагове
+            num_enemies = random.randint(1, 3)
+            for _ in range(num_enemies):
+                dx = random.randint(-self.spawn_distance, self.spawn_distance)
+                dy = random.randint(-self.spawn_distance, self.spawn_distance)
+                new_enemy_position = (self.rect.centerx + dx, self.rect.centery + dy)
+                new_enemy_rotation = random.randint(0, 360)
+                new_enemy = Enemy(new_enemy_position, new_enemy_rotation)
+                enemies_list.append(new_enemy)
+
+    def update(self, player, collision_rects, enemies_list):
         self.rotate_towards_player(player.rect)
+
+        if self.health <= 30:
+            self.spawn_enemies_if_low_health(enemies_list)
 
         if self.distance_to(player.rect) > self.start_shooting_distance:
             self.start_shooting = False
@@ -118,81 +136,56 @@ class Enemy:
 
         if self.start_shooting or self.is_player_in_fov(player_rect):
             if distance_to_player > 200:
-                dx, dy = self._calculate_deltas(player_rect)
-                direction_length = math.sqrt(dx ** 2 + dy ** 2)
-                if direction_length != 0:
-                    dx /= direction_length
-                    dy /= direction_length
-
-                self.rect.x += dx * self.speed
-                self.rect.y += dy * self.speed
-
-                new_distance = self.distance_to(player_rect)
-                if new_distance < 200:
-                    scale_factor = (distance_to_player - 200) / direction_length
-                    self.rect.x -= dx * scale_factor
-                    self.rect.y -= dy * scale_factor
-        elif 200 <= distance_to_player <= self.shoot_range and self.is_player_in_fov(player_rect):
-            dx, dy = self._calculate_deltas(player_rect)
-            direction_length = math.sqrt(dx ** 2 + dy ** 2)
-            if direction_length != 0:
-                dx /= direction_length
-                dy /= direction_length
-
-            self.rect.x += dx * self.speed
-            self.rect.y += dy * self.speed
-
-            new_distance = self.distance_to(player_rect)
-            if new_distance < 200:
-                scale_factor = (distance_to_player - 200) / direction_length
-                self.rect.x -= dx * scale_factor
-                self.rect.y -= dy * scale_factor
+                self._move_towards_target(player_rect, 200, old_rect)
+            elif 200 <= distance_to_player <= self.shoot_range:
+                self._move_towards_target(player_rect, distance_to_player, old_rect)
 
         elif distance_to_player > self.shoot_range and distance_to_original_position > 10:
-            dx = self.original_position[0] - self.rect.x
-            dy = self.original_position[1] - self.rect.y
-            direction_length = math.sqrt(dx ** 2 + dy ** 2)
-            if direction_length != 0:
-                dx /= direction_length
-                dy /= direction_length
-
-            self.rect.x += dx * self.speed
-            self.rect.y += dy * self.speed
-
-            self.is_moving = True
-
-            if direction_length < self.speed:
-                self.rect.x, self.rect.y = self.original_position
+            self._move_towards_target(pygame.Rect(self.original_position[0], self.original_position[1], 1, 1), 10,
+                                      old_rect)
 
         elif distance_to_original_position > 10:
             self.is_moving = False
 
+        self._handle_collision_movement(old_rect, collision_rects, player_rect, distance_to_player)
+
+    def _move_towards_target(self, target_rect, distance, old_rect):
+        dx, dy = self._calculate_deltas(target_rect)
+        direction_length = math.sqrt(dx ** 2 + dy ** 2)
+        if direction_length != 0:
+            dx /= direction_length
+            dy /= direction_length
+
+        self.rect.x += dx * self.speed
+        self.rect.y += dy * self.speed
+
+        new_distance = self.distance_to(target_rect)
+        if new_distance < distance:
+            scale_factor = (distance - new_distance) / direction_length
+            self.rect.x -= dx * scale_factor
+            self.rect.y -= dy * scale_factor
+
+    def _handle_collision_movement(self, old_rect, collision_rects, player_rect, distance_to_player):
         for rect in collision_rects:
             if self.rect.colliderect(rect):
                 if distance_to_player <= self.shoot_range:
-                    player_x = player_rect.centerx
-                    player_y = player_rect.centery
-                    enemy_x = self.rect.centerx
-                    enemy_y = self.rect.centery
-
-                    if abs(player_x - enemy_x) > abs(player_y - enemy_y):
-                        self.rect.x, self.rect.y = old_rect.x, old_rect.y + math.copysign(self.speed,
-                                                                                          player_y - enemy_y)
-                    else:
-                        self.rect.x, self.rect.y = old_rect.x + math.copysign(self.speed,
-                                                                              player_x - enemy_x), old_rect.y
-                    break
+                    x = player_rect.centerx
+                    y = player_rect.centery
                 else:
-                    spawn_x = self.original_position[0]
-                    spawn_y = self.original_position[1]
-                    enemy_x = self.rect.centerx
-                    enemy_y = self.rect.centery
+                    x = self.original_position[0]
+                    y = self.original_position[1]
 
-                    if abs(spawn_x - enemy_x) > abs(spawn_y - enemy_y):
-                        self.rect.x, self.rect.y = old_rect.x, old_rect.y + math.copysign(self.speed, spawn_y - enemy_y)
-                    else:
-                        self.rect.x, self.rect.y = old_rect.x + math.copysign(self.speed, spawn_x - enemy_x), old_rect.y
-                    break
+                self.collision(x, y, old_rect)
+                break
+
+    def collision(self, x, y, old_rect):
+        enemy_x = self.rect.centerx
+        enemy_y = self.rect.centery
+
+        if abs(x - enemy_x) > abs(y - enemy_y):
+            self.rect.x, self.rect.y = old_rect.x, old_rect.y + math.copysign(self.speed, y - enemy_y)
+        else:
+            self.rect.x, self.rect.y = old_rect.x + math.copysign(self.speed, x - enemy_x), old_rect.y
 
     def shoot(self, player_rect):
         if self.is_player_in_fov(player_rect) and self.shooting_timer <= 0:

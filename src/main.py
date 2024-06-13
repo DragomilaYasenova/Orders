@@ -29,7 +29,7 @@ crosshair = pygame.transform.smoothscale(crosshair, (50, 50))
 
 pygame.mouse.set_visible(False)
 
-player_light = Light((player.rect.centerx, player.rect.centery), radius=200)
+player_light = Light((player.rect.centerx, player.rect.centery), radius=250)
 lights = parse_light_objects(tmx_data)
 enemies = parse_enemy_objects(tmx_data, zoom_factor)
 
@@ -44,7 +44,7 @@ while run:
 
     mouse_pos = pygame.mouse.get_pos()
 
-    screen.fill((0, 0, 0))
+    screen.fill((24, 24, 24))
 
     camera.update(player)
 
@@ -73,7 +73,7 @@ while run:
     player.shoot(mouse_pressed)
 
     dark_overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
-    dark_overlay.fill((0, 0, 0, 220))
+    dark_overlay.fill((0, 0, 0, 250))
 
     player_light.position = (player.rect.centerx, player.rect.centery)
 
@@ -82,7 +82,7 @@ while run:
         light.draw(dark_overlay, camera, zoom_factor)
 
     for enemy in enemies[:]:
-        enemy.update(player, collision_rects)
+        enemy.update(player, collision_rects, enemies)
         if enemy.health <= 0:
             enemies.remove(enemy)
         else:
