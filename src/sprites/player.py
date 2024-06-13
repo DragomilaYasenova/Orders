@@ -25,6 +25,8 @@ class Player:
         self.shoot_timer = 0
         self.health = 100
 
+        self.max_health = 100
+
     def animate(self):
         self.animation_timer += 1
         if self.animation_timer >= self.animation_speed:
@@ -35,6 +37,17 @@ class Player:
         rotated_image = pygame.transform.rotate(self.images[self.current_image], -self.rotation_angle)
         rotated_rect = rotated_image.get_rect(center=self.rect.center)
         screen.blit(rotated_image, camera.apply(rotated_rect))
+        self.draw_health_bar(screen, camera)
+
+    def draw_health_bar(self, screen, camera):
+        bar_length = 50
+        bar_height = 7
+        fill = (self.health / self.max_health) * bar_length
+        health_bar_rect = pygame.Rect(0, 0, bar_length, bar_height)
+        health_fill_rect = pygame.Rect(0, 0, fill, bar_height)
+
+        pygame.draw.rect(screen, (255, 0, 0), camera.apply((self.rect.x, self.rect.y - 10)) + health_bar_rect.size)
+        pygame.draw.rect(screen, (0, 255, 0), camera.apply((self.rect.x, self.rect.y - 10)) + health_fill_rect.size)
 
     def movements(self, key, collision_rects):
         self.animation_speed = 15

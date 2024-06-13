@@ -27,6 +27,7 @@ class Enemy:
         self.speed = 5
         self.projectiles = []
         self.health = 50
+        self.max_health = 50
         self.shoot_range = 300
         self.start_shooting = False
 
@@ -44,6 +45,17 @@ class Enemy:
         rotated_image = pygame.transform.rotate(self.images[self.current_image], -self.rotation_angle)
         rotated_rect = rotated_image.get_rect(center=self.rect.center)
         screen.blit(rotated_image, camera.apply(rotated_rect))
+        self.draw_health_bar(screen, camera)
+
+    def draw_health_bar(self, screen, camera):
+        bar_length = 50
+        bar_height = 7
+        fill = (self.health / self.max_health) * bar_length
+        health_bar_rect = pygame.Rect(0, 0, bar_length, bar_height)
+        health_fill_rect = pygame.Rect(0, 0, fill, bar_height)
+
+        pygame.draw.rect(screen, (255, 0, 0), camera.apply((self.rect.x, self.rect.y - 10)) + health_bar_rect.size)
+        pygame.draw.rect(screen, (0, 255, 0), camera.apply((self.rect.x, self.rect.y - 10)) + health_fill_rect.size)
 
     def _calculate_deltas(self, other_rect):
         dx = other_rect.centerx - self.rect.centerx
@@ -91,16 +103,13 @@ class Enemy:
         self.shoot(player.rect)
         self.update_projectiles(player, player.rect)
 
-        if self.start_shooting and not self.is_player_in_fov(player.rect):
-            self.start_shooting = False
-
     def movement(self, player_rect, collision_rects):
         old_rect = self.rect.copy()
         distance_to_player = self.distance_to(player_rect)
         distance_to_original_position = self.distance_to(
             pygame.Rect(self.original_position[0], self.original_position[1], 1, 1))
 
-        if self.start_shooting and self.is_player_in_fov(player_rect):
+        if self.start_shooting or self.is_player_in_fov(player_rect):
             if distance_to_player > 200:
                 dx, dy = self._calculate_deltas(player_rect)
                 direction_length = math.sqrt(dx ** 2 + dy ** 2)
