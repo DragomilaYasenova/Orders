@@ -102,8 +102,7 @@ class Enemy:
             self.animate()
 
     def spawn_enemies_if_low_health(self, enemies_list):
-        if self.health < 5 and random.random() < 0.1:  # Шанс от 50%
-            # Избираме случаен брой и случайни позиции за новите врагове
+        if self.health < 5 and random.random() < 0.1:
             num_enemies = random.randint(1, 3)
             for _ in range(num_enemies):
                 dx = random.randint(-self.spawn_distance, self.spawn_distance)

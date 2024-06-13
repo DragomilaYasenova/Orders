@@ -18,7 +18,7 @@ class Player:
         self.current_image = 0
         self.rotation_angle = 0
         self.animation_timer = 0
-        self.animation_speed = 0
+        self.animation_speed = 10
         self.speed = 6
         self.projectiles = []
         self.shoot_delay = 10
@@ -50,7 +50,6 @@ class Player:
         pygame.draw.rect(screen, (0, 255, 0), camera.apply((self.rect.x, self.rect.y - 10)) + health_fill_rect.size)
 
     def movements(self, key, collision_rects):
-        self.animation_speed = 15
         old_rect = self.rect.copy()
 
         if key[pygame.K_LSHIFT] or key[pygame.K_RSHIFT]:
